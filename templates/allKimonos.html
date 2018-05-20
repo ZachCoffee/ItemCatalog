@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kimono Catalog</title>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+	<style>
+	body {font-family: "Times New Roman", Georgia, Serif;}
+	h1,h2,h3,h4,h5,h6,h7 {
+	   font-family: "Playfair Display";
+	   letter-spacing: 5px;
+	}
+	</style>
+</head>
+<body>
+<!-- Navigation Bar-->
+  <div class="w3-top">
+    <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+      <h7 class="w3-bar-item">Jiu Jitsu's Kimono Catalog</h7>
+        <div class="w3-right w3-hide-small">
+            <a href="{{url_for('allKimonos')}}" class="w3-bar-item w3-button">Home</a>
+            <a href="{{url_for('newKimonoBrand')}}" class="w3-bar-item w3-button">Create New Brand</a>
+						{% if 'username' not in session %}
+							<a href="{{url_for('showLogin')}}" class="w3-bar-item w3-button">Login</a>
+						{% else %}
+							<a href="{{url_for('gdisconnect')}}" class="w3-bar-item w3-button">Log Out</a>
+						{% endif %}
+    		</div>
+  	</div>
+	</div>
+<!-- List of Kimono Brands -->
+  <div class="w3-row w3-padding-64" id="menu">
+    <div class="w3-col l6 w3-padding-large">
+      <h1 class="w3-center">Kimono Brands</h1>
+				 <h6 class="w3-center">Please login to make any changes!</h6>
+					<hr>
+	        {% for kimono in kimonos %}
+		        <a href = "{{url_for('showKimonoItems', kimono_id = kimono.id)}}"><h4>{{kimono.name}}</h4></a>
+		        <a href = "{{url_for('editKimonoBrand',kimono_id = kimono.id)}}" class="w3-text-grey"><h6>Edit</h6></a>
+		        <a href = "{{url_for('deleteKimonoBrand',kimono_id = kimono.id)}}" class="w3-text-grey"><h6>Delete</h6></a>
+	        <hr>
+	        {% endfor %}
+    </div>
+<!-- JiuJitsu Image -->
+    <div class="w3-col l6 w3-padding-large">
+        <img alt="JiuJitsu Image" class="w3-round w3-image w3-opacity-min" src="https://static1.squarespace.com/static/542189b3e4b0e98b8cb06334/t/543d5492e4b03d51ea610bb9/1413305494224/Carlos-And-Helio-Gracie.jpg?format=500w" style="width:100%">
+    </div>
+  </div>
+</body>
+</html>

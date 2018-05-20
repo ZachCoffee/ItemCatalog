@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kimono Catalog</title>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
+	<style>
+	body {font-family: "Times New Roman", Georgia, Serif;}
+	h1,h2,h3,h4,h5,h6,h7 {
+	   font-family: "Playfair Display";
+	   letter-spacing: 5px;
+	}
+	</style>
+</head>
+<body>
+<!-- Navigation Bar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+      <h7 class="w3-bar-item">Jiu Jitsu's Kimono Catalog</h7>
+        <div class="w3-right w3-hide-small">
+            <a href="{{url_for('allKimonos')}}" class="w3-bar-item w3-button">Home</a>
+            <a href="{{url_for('newKimonoBrand')}}" class="w3-bar-item w3-button">Create New Brand</a>
+						{% if 'username' not in session %}
+							<a href="{{url_for('showLogin')}}" class="w3-bar-item w3-button">Login</a>
+						{% else %}
+							<a href="{{url_for('gdisconnect')}}" class="w3-bar-item w3-button">Log Out</a>
+						{% endif %}
+        </div>
+    </div>
+  </div>
+  <div class = "w3-text-grey">
+		<h1>{{ kimono.name }}</h1>
+		  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+      {% endwith %}
+    {% if items !=[] %}
+  <div class="w3-row w3-padding-64" id="menu">
+    <div class="w3-col l6 w3-padding-large">
+      <h4 class="w3-center">Kimono Items</h4>
+      <a href = "{{url_for('newKimonoItems', kimono_id = kimono.id )}}" class="w3-center">Create New Item</a>
+        {% for i in items %}
+          <p>Name: {{i.name}}</p>
+          <p>Description: {{i.description}}</p>
+          <p>Price: {{i.price}}</p>
+          <a href='{{url_for('editKimonoItems', kimono_id = kimono.id, items_id=i.id ) }}' >Edit</a>
+		      <a href='{{url_for('deleteKimonoItems', kimono_id = kimono.id, items_id=i.id ) }}' >Delete</a>
+          <hr>
+        {% endfor %}
+          <br>
+        {% else %}
+		      <p> You currently have no menu items. <p>
+		      <a href = "{{url_for('newKimonoItems', kimono_id = kimono.id )}}">Create New Item</a>
+			  {% endif %}
+    </div>
+  </div>
+</body>
+</html>
